@@ -1,0 +1,65 @@
+<html>
+<body>
+    <form id="form1">
+        
+
+        <label for="prod">Name:</label>
+        <input type="text" id="prod" name="prod" required><br><br><br>
+
+        <label for="qty">QTYL</label>
+        <input type="text" id="qty" name="qty" required><br><br><br>
+
+        <input type="submit" value="submit">
+    </form>
+
+    <form id="form2">
+        <label for="prod2">Name:</label>
+        <input type="text" id="prod2" name="prod2" required><br><br><br>
+        <input type="submit" value="submit">
+    </form>
+    
+    <script>
+        document.getElementById('form1').addEventListener('submit', function(event)) {
+            event.preventDefault();
+            const prod = document.getElementById('prod').value;
+            const qty = document.getElementById('qty').value;
+
+            fetch(`/pxy/updateInventory`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({ 'product': prod, 'quantity':qty })
+            })
+            .then( response => response.json() )
+            .then( data => alert(data.message) )
+            .catch(error => {
+                console.error('Error:', error);
+
+            });
+    
+        }
+
+        document.getElementById('form2').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const prod = document.getElementById('prod2').value;
+            console.log(id);
+            fetch(`/pxy/getInventory`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({ 'product':product })        
+            })
+            .then( response => response.json() )
+            .then( data => {
+                console.log(data);
+                alert(data.quantity);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        } );
+    </script>
+</body>
+</html>
